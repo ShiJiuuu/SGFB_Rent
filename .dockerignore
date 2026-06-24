@@ -1,5 +1,9 @@
 node_modules
+.git
 .DS_Store
 *.log
 backend/target
 dist
+.idea
+.cursor
+*.md

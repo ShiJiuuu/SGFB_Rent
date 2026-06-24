@@ -1,0 +1,12 @@
+# Docker 环境配置 —— 通过环境变量注入数据库连接
+# 使用 host.docker.internal 访问宿主机 MySQL
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://host.docker.internal:3306/RENT_SYS?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:shijiu}
+
+server:
+  port: 8080
