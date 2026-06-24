@@ -1,5 +1,5 @@
 # ===== 构建阶段 =====
-FROM maven:3.8-openjdk-11-slim AS builder
+FROM maven:3.9-eclipse-temurin-11 AS builder
 
 WORKDIR /app
 COPY pom.xml .
@@ -10,7 +10,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests -B
 
 # ===== 运行阶段 =====
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre
 
 WORKDIR /app
 
