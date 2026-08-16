@@ -326,6 +326,20 @@ const saveAnnounce = async () => {
   min-height: 100%;
   background-color: #fff;
   padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(31, 60, 105, 0.06);
+  animation: fadeInUp 0.4s cubic-bezier(0.25, 0.8, 0.35, 1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .page-header {
@@ -345,6 +359,21 @@ const saveAnnounce = async () => {
   color: #409eff;
 }
 
+:deep(.el-card) {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(31, 60, 105, 0.05);
+  transition: box-shadow 0.25s ease;
+}
+
+:deep(.el-card:hover) {
+  box-shadow: 0 6px 20px rgba(31, 60, 105, 0.1);
+}
+
+:deep(.el-card__body) {
+  padding: 20px;
+}
+
 .add-device-form {
   margin-bottom: 20px;
 }
@@ -353,13 +382,13 @@ const saveAnnounce = async () => {
   .equipment-management {
     padding: 20px 15px;
   }
-  
+
   .page-header {
     font-size: 18px;
     margin-bottom: 20px;
     padding-bottom: 15px;
   }
-  
+
   .header-icon {
     font-size: 22px;
   }

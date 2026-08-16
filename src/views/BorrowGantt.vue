@@ -341,6 +341,20 @@ onMounted(() => {
   min-height: 100%;
   background-color: #fff;
   padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(31, 60, 105, 0.06);
+  animation: fadeInUp 0.4s cubic-bezier(0.25, 0.8, 0.35, 1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .page-header {
@@ -364,18 +378,21 @@ onMounted(() => {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 0;
 }
 
 .gantt-container {
   display: grid;
   grid-template-columns: 200px 1fr;
   border: 1px solid #ebeef5;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 2px 10px rgba(31, 60, 105, 0.05);
 }
 
 .gantt-left-header {
-  background-color: #f5f7fa;
+  background: linear-gradient(180deg, #f7f9fc, #f5f7fa);
   border-bottom: 1px solid #ebeef5;
   position: sticky;
   left: 0;
@@ -384,7 +401,7 @@ onMounted(() => {
 }
 
 .gantt-right-header {
-  background-color: #f5f7fa;
+  background: linear-gradient(180deg, #f7f9fc, #f5f7fa);
   border-bottom: 1px solid #ebeef5;
   overflow-x: auto;
   overflow-y: hidden;
@@ -431,11 +448,23 @@ onMounted(() => {
 
 .header-hour-cell {
   color: #909399;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .header-hour-cell.today {
   background-color: #ecf5ff;
   color: #409eff;
+  font-weight: 600;
+  animation: today-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes today-breathe {
+  0%, 100% {
+    background-color: #ecf5ff;
+  }
+  50% {
+    background-color: #d9ecff;
+  }
 }
 
 .gantt-left-body {
@@ -485,24 +514,40 @@ onMounted(() => {
 .task-bar {
   position: absolute;
   height: 36px;
-  border-radius: 4px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  padding: 0 4px;
+  padding: 0 6px;
   color: #fff;
   font-size: 10px;
   font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(31, 60, 105, 0.18);
   top: 12px;
-  transition: transform 0.2s;
+  transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.35, 1), box-shadow 0.25s cubic-bezier(0.25, 0.8, 0.35, 1);
   z-index: 1;
+  /* 在 JS 内联背景色的基础上叠加光泽渐变 */
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 55%);
+  animation: task-pop 0.35s cubic-bezier(0.25, 0.8, 0.35, 1) backwards;
+  transform-origin: left center;
+}
+
+@keyframes task-pop {
+  from {
+    opacity: 0;
+    transform: scaleX(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 .task-bar:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(31, 60, 105, 0.3);
   z-index: 2;
 }
 
@@ -549,7 +594,8 @@ onMounted(() => {
 .legend-color {
   width: 16px;
   height: 16px;
-  border-radius: 3px;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.35);
 }
 
 .legend-color.status-reserved {

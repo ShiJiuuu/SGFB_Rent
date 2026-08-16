@@ -829,6 +829,20 @@ watch([() => editForm.value.brwtime, () => editForm.value.rtuntime], () => {
   min-height: 100%;
   background-color: #fff;
   padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(31, 60, 105, 0.06);
+  animation: fadeInUp 0.4s cubic-bezier(0.25, 0.8, 0.35, 1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .page-header {
@@ -852,12 +866,20 @@ watch([() => editForm.value.brwtime, () => editForm.value.rtuntime], () => {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 0;
 }
 
 .table-container {
   border: 1px solid #ebeef5;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 2px 10px rgba(31, 60, 105, 0.05);
+  transition: box-shadow 0.25s ease;
+}
+
+.table-container:hover {
+  box-shadow: 0 6px 20px rgba(31, 60, 105, 0.1);
 }
 
 .pagination-container {

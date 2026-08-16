@@ -1,0 +1,234 @@
+/* ============================================
+   SGFB 影视器材预约系统 · 全局设计令牌与动效
+   ============================================ */
+
+:root {
+  /* 主色系 */
+  --sgfb-primary: #409eff;
+  --sgfb-primary-light: #66b1ff;
+  --sgfb-primary-dark: #2d6fc4;
+  --sgfb-gradient: linear-gradient(135deg, #409eff 0%, #66b1ff 100%);
+  --sgfb-gradient-hover: linear-gradient(135deg, #66b1ff 0%, #8cc5ff 100%);
+
+  /* 状态色 */
+  --sgfb-success: #67c23a;
+  --sgfb-warning: #e6a23c;
+  --sgfb-danger: #f56c6c;
+  --sgfb-info: #909399;
+
+  /* 文字与边框 */
+  --sgfb-text-primary: #303133;
+  --sgfb-text-regular: #606266;
+  --sgfb-text-secondary: #909399;
+  --sgfb-border: #ebeef5;
+
+  /* 圆角 */
+  --sgfb-radius-card: 12px;
+  --sgfb-radius-control: 8px;
+
+  /* 阴影三档 */
+  --sgfb-shadow-sm: 0 2px 8px rgba(31, 60, 105, 0.06);
+  --sgfb-shadow-md: 0 6px 20px rgba(31, 60, 105, 0.1);
+  --sgfb-shadow-lg: 0 12px 32px rgba(31, 60, 105, 0.16);
+  --sgfb-shadow-primary: 0 6px 18px rgba(64, 158, 255, 0.35);
+
+  /* 动效 */
+  --sgfb-duration: 0.25s;
+  --sgfb-ease: cubic-bezier(0.25, 0.8, 0.35, 1);
+}
+
+/* ---------- 公共动画 keyframes ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(18px, -24px) scale(1.06); }
+  66% { transform: translate(-14px, 16px) scale(0.96); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: inset 0 0 0 1px rgba(64, 158, 255, 0.25); }
+  50% { box-shadow: inset 0 0 0 1px rgba(64, 158, 255, 0.6); }
+}
+
+/* ---------- Element Plus 全局微调 ---------- */
+.el-button {
+  border-radius: var(--sgfb-radius-control);
+  transition: all var(--sgfb-duration) var(--sgfb-ease) !important;
+}
+
+.el-button--primary:not(.is-text, .is-link, .is-plain) {
+  background: var(--sgfb-gradient);
+  border: none;
+}
+
+.el-button--primary:not(.is-text, .is-link, .is-plain):hover,
+.el-button--primary:not(.is-text, .is-link, .is-plain):focus {
+  background: var(--sgfb-gradient-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--sgfb-shadow-primary);
+}
+
+.el-button--primary:not(.is-text, .is-link, .is-plain):active {
+  transform: translateY(0);
+}
+
+/* 弹窗：缩放淡入 */
+.el-dialog {
+  border-radius: var(--sgfb-radius-card);
+  animation: scaleIn 0.28s var(--sgfb-ease);
+}
+
+.el-dialog__header {
+  border-bottom: 1px solid var(--sgfb-border);
+  margin-right: 0;
+  padding: 18px 24px;
+}
+
+.el-dialog__title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* 遮罩淡入 */
+.el-overlay {
+  animation: fadeIn 0.25s ease;
+}
+
+.el-overlay-dialog {
+  overflow-y: auto;
+}
+
+/* 抽屉滑入更顺滑 */
+.el-drawer {
+  transition: transform 0.32s var(--sgfb-ease) !important;
+}
+
+/* 标签胶囊化 */
+.el-tag {
+  border-radius: 999px;
+  padding: 0 12px;
+  border: none;
+  font-weight: 500;
+}
+
+/* 表格行悬停 */
+.el-table {
+  --el-table-header-bg-color: #f5f8fc;
+  --el-table-row-hover-bg-color: #f0f7ff;
+}
+
+.el-table th.el-table__cell {
+  font-weight: 600;
+  color: var(--sgfb-text-primary);
+}
+
+/* 分页间距 */
+.el-pagination {
+  margin-top: 16px;
+  justify-content: flex-end;
+}
+
+/* 输入控件圆角 */
+.el-input__wrapper,
+.el-select__wrapper,
+.el-textarea__inner {
+  border-radius: var(--sgfb-radius-control);
+}
+
+/* 消息提示圆角 */
+.el-message {
+  border-radius: var(--sgfb-radius-control);
+}
+
+/* ---------- 公共页面结构类 ---------- */
+.page-card {
+  background: #fff;
+  border-radius: var(--sgfb-radius-card);
+  box-shadow: var(--sgfb-shadow-sm);
+  transition: box-shadow var(--sgfb-duration) var(--sgfb-ease);
+}
+
+.page-card:hover {
+  box-shadow: var(--sgfb-shadow-md);
+}
+
+.page-header {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--sgfb-text-primary);
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--sgfb-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-header .header-icon {
+  font-size: 26px;
+  color: var(--sgfb-primary);
+}
+
+/* ---------- 路由切换动画 ---------- */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.28s var(--sgfb-ease), transform 0.28s var(--sgfb-ease);
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* ---------- 全局滚动条 ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #c0c8d4, #a3b3cc);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a8b6cc, #8ba3c7);
+}
+
+/* 减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

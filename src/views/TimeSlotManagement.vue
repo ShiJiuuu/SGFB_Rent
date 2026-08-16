@@ -173,6 +173,30 @@ async function handleSave(dayOfWeek, periodIndex, period) {
   min-height: 100%;
   background-color: #fff;
   padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(31, 60, 105, 0.06);
+  animation: fadeInUp 0.4s cubic-bezier(0.25, 0.8, 0.35, 1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:deep(.el-card) {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(31, 60, 105, 0.05);
+}
+
+:deep(.el-card__body) {
+  padding: 20px;
 }
 
 .page-header {
@@ -197,8 +221,9 @@ async function handleSave(dayOfWeek, periodIndex, period) {
   font-size: 14px;
   margin-bottom: 20px;
   padding: 10px 14px;
-  background: #f4f4f5;
-  border-radius: 6px;
+  background: linear-gradient(135deg, #f4f7fb, #f4f4f5);
+  border-radius: 8px;
+  border-left: 3px solid #409eff;
 }
 
 .slot-grid {
@@ -211,12 +236,23 @@ async function handleSave(dayOfWeek, periodIndex, period) {
   border: 1px solid #ebeef5;
   border-radius: 10px;
   padding: 16px;
-  transition: all 0.3s;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.35, 1);
   background: #fff;
+  animation: fadeInUp 0.4s cubic-bezier(0.25, 0.8, 0.35, 1) backwards;
 }
 
+.slot-card:nth-child(1) { animation-delay: 0.03s; }
+.slot-card:nth-child(2) { animation-delay: 0.06s; }
+.slot-card:nth-child(3) { animation-delay: 0.09s; }
+.slot-card:nth-child(4) { animation-delay: 0.12s; }
+.slot-card:nth-child(5) { animation-delay: 0.15s; }
+.slot-card:nth-child(6) { animation-delay: 0.18s; }
+.slot-card:nth-child(7) { animation-delay: 0.21s; }
+
 .slot-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 20px rgba(31, 60, 105, 0.1);
+  transform: translateY(-3px);
+  border-color: #c6e2ff;
 }
 
 .period-list {
@@ -227,13 +263,14 @@ async function handleSave(dayOfWeek, periodIndex, period) {
 
 .period-row {
   border: 1px solid #f0f0f0;
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 10px;
   transition: all 0.2s;
 }
 
 .period-row:hover {
-  background: #fafafa;
+  background: #f7fafd;
+  border-color: #e1ecf7;
 }
 
 .period-row.disabled-row {
@@ -264,6 +301,20 @@ async function handleSave(dayOfWeek, periodIndex, period) {
   font-size: 16px;
   font-weight: 600;
   color: #303133;
+  position: relative;
+  padding-left: 10px;
+}
+
+.day-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #66b1ff, #409eff);
 }
 
 .slot-body {

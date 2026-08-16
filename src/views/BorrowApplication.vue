@@ -1,6 +1,6 @@
 <template>
-  <div class="borrow-application">
-    <div class="page-header">
+  <div class="borrow-application" :class="{ 'page-ready': pageReady }">
+    <div class="page-header" v-show="pageReady">
       <el-icon class="header-icon"><Camera /></el-icon>
       <span>预约申请</span>
       <el-button type="primary" size="default" @click="openAnnounce" class="announce-btn">
@@ -15,6 +15,7 @@
       width="60%"
       :close-on-click-modal="false"
       :show-close="true"
+      append-to-body
     >
       <div class="announce-content" v-html="renderedContent"></div>
       <template #footer>
@@ -35,131 +36,138 @@
     </div>
     
     <el-form
+      v-show="pageReady"
       ref="borrowFormRef"
       :model="borrowForm"
       :rules="rules"
       label-width="80px"
       class="borrow-form"
     >
-      <el-divider content-position="left">
-        <el-icon><User /></el-icon>
-        个人信息
-      </el-divider>
-      
-      <el-row :gutter="20">
-        <el-col :xs="24" :sm="12" :span="12">
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="borrowForm.name" placeholder="请输入姓名">
-              <template #prefix>
-                <el-icon><User /></el-icon>
-              </template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="12" :span="12">
-          <el-form-item label="学号" prop="studentId">
-            <el-input v-model="borrowForm.studentId" placeholder="请输入学号">
-              <template #prefix>
-                <el-icon><Tickets /></el-icon>
-              </template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item label="手机号" prop="phone">
-            <el-input v-model="borrowForm.phone" placeholder="请输入手机号">
-              <template #prefix>
-                <el-icon><Phone /></el-icon>
-              </template>
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      
-      <el-divider content-position="left">
-        <el-icon><Calendar /></el-icon>
-        预约时间
-      </el-divider>
+      <div class="form-section">
+        <el-divider content-position="left">
+          <el-icon><User /></el-icon>
+          个人信息
+        </el-divider>
 
-      <el-row :gutter="20">
-        <el-col :xs="24" :sm="12" :span="12">
-          <el-form-item prop="borrowDate">
-            <TimeSlotPicker
-              v-model="borrowForm.borrowDate"
-              label="预约时间"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="12" :span="12">
-          <el-form-item prop="returnDate">
-            <TimeSlotPicker
-              v-model="borrowForm.returnDate"
-              label="归还时间"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      
-      <el-divider content-position="left">
-        <el-icon><Setting /></el-icon>
-        设备选择
-      </el-divider>
-      
-      <el-row :gutter="20">
-        <el-col :xs="24" :sm="8" :span="8">
-          <el-form-item label="相机" prop="camera">
-            <el-select v-model="borrowForm.camera" placeholder="选择相机" clearable style="width: 100%" no-data-text="当前无可用设备">
-              <el-option 
-                v-for="device in cameraList" 
-                :key="device.id" 
-                :label="device.name" 
-                :value="device.id" 
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="12" :span="12">
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="borrowForm.name" placeholder="请输入姓名">
+                <template #prefix>
+                  <el-icon><User /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="12" :span="12">
+            <el-form-item label="学号" prop="studentId">
+              <el-input v-model="borrowForm.studentId" placeholder="请输入学号">
+                <template #prefix>
+                  <el-icon><Tickets /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="手机号" prop="phone">
+              <el-input v-model="borrowForm.phone" placeholder="请输入手机号">
+                <template #prefix>
+                  <el-icon><Phone /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
+
+      <div class="form-section">
+        <el-divider content-position="left">
+          <el-icon><Calendar /></el-icon>
+          预约时间
+        </el-divider>
+
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="12" :span="12">
+            <el-form-item prop="borrowDate">
+              <TimeSlotPicker
+                v-model="borrowForm.borrowDate"
+                label="预约时间"
               />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="8" :span="8">
-          <el-form-item label="镜头" prop="lens">
-            <el-select v-model="borrowForm.lens" placeholder="选择镜头" clearable style="width: 100%" no-data-text="当前无可用设备">
-              <el-option 
-                v-for="device in lensList" 
-                :key="device.id" 
-                :label="device.name" 
-                :value="device.id" 
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="12" :span="12">
+            <el-form-item prop="returnDate">
+              <TimeSlotPicker
+                v-model="borrowForm.returnDate"
+                label="归还时间"
               />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="8" :span="8">
-          <el-form-item label="其他" prop="other">
-            <el-select v-model="borrowForm.other" placeholder="选择其他设备" clearable style="width: 100%" no-data-text="当前无可用设备">
-              <el-option 
-                v-for="device in otherList" 
-                :key="device.id" 
-                :label="device.name" 
-                :value="device.id" 
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
+
+      <div class="form-section">
+        <el-divider content-position="left">
+          <el-icon><Setting /></el-icon>
+          设备选择
+        </el-divider>
+
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="8" :span="8">
+            <el-form-item label="相机" prop="camera">
+              <el-select v-model="borrowForm.camera" placeholder="选择相机" clearable style="width: 100%" no-data-text="当前无可用设备">
+                <el-option
+                  v-for="device in cameraList"
+                  :key="device.id"
+                  :label="device.name"
+                  :value="device.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="8" :span="8">
+            <el-form-item label="镜头" prop="lens">
+              <el-select v-model="borrowForm.lens" placeholder="选择镜头" clearable style="width: 100%" no-data-text="当前无可用设备">
+                <el-option
+                  v-for="device in lensList"
+                  :key="device.id"
+                  :label="device.name"
+                  :value="device.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="8" :span="8">
+            <el-form-item label="其他" prop="other">
+              <el-select v-model="borrowForm.other" placeholder="选择其他设备" clearable style="width: 100%" no-data-text="当前无可用设备">
+                <el-option
+                  v-for="device in otherList"
+                  :key="device.id"
+                  :label="device.name"
+                  :value="device.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="备注">
+              <el-input
+                v-model="borrowForm.remark"
+                type="textarea"
+                :rows="3"
+                placeholder="请输入备注信息（选填）"
               />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item label="备注">
-            <el-input
-              v-model="borrowForm.remark"
-              type="textarea"
-              :rows="3"
-              placeholder="请输入备注信息（选填）"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </div>
+
       <el-row>
         <el-col :span="24" class="button-group">
           <el-button type="primary" @click="handleSubmit" :loading="loading">
@@ -191,6 +199,7 @@ const otherList = ref([])
 const announceVisible = ref(false)
 const announceContent = ref('')
 const successModalVisible = ref(false)
+const pageReady = ref(false)
 let successModalTimer = null
 
 const renderedContent = computed(() => {
@@ -383,7 +392,6 @@ watch(() => borrowForm.returnDate, () => {
 })
 
 onMounted(() => {
-  fetchDevices()
   fetchAnnounce()
 })
 
@@ -394,11 +402,25 @@ const fetchAnnounce = async () => {
     if (data.success && data.data) {
       announceContent.value = data.data
       announceVisible.value = true
+    } else {
+      activatePage()
     }
   } catch (error) {
     console.error('获取公告失败:', error)
+    activatePage()
   }
 }
+
+const activatePage = () => {
+  pageReady.value = true
+  fetchDevices()
+}
+
+watch(announceVisible, (visible) => {
+  if (!visible && !pageReady.value) {
+    activatePage()
+  }
+})
 
 const closeAnnounce = () => {
   announceVisible.value = false
@@ -427,10 +449,18 @@ const openAnnounce = async () => {
   min-height: 100%;
   background-color: #fff;
   padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(31, 60, 105, 0.06);
+  opacity: 0;
+}
+
+.borrow-application.page-ready {
+  animation: fadeInUp 0.4s cubic-bezier(0.25, 0.8, 0.35, 1) forwards;
 }
 
 .announce-content {
   min-height: 200px;
+  line-height: 1.8;
 }
 
 .announce-content :deep(.v-show-content) {
@@ -454,6 +484,38 @@ const openAnnounce = async () => {
   color: #409eff;
 }
 
+.form-section {
+  animation: fadeInUp 0.45s cubic-bezier(0.25, 0.8, 0.35, 1) both;
+}
+
+.form-section:nth-of-type(2) {
+  animation-delay: 0.08s;
+}
+
+.form-section:nth-of-type(3) {
+  animation-delay: 0.16s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .announce-btn {
   margin-left: auto;
   background: linear-gradient(135deg, #409eff 0%, #66b1ff 100%);
@@ -468,7 +530,7 @@ const openAnnounce = async () => {
 .announce-btn:hover {
   background: linear-gradient(135deg, #66b1ff 0%, #409eff 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
+  box-shadow: 0 6px 16px rgba(64, 158, 255, 0.4);
 }
 
 .borrow-form {

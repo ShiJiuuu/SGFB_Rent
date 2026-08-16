@@ -229,11 +229,17 @@ watch(() => props.modelValue, (newVal) => {
 .calendar-container {
   background: #fff;
   border: 1px solid #dcdfe6;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 12px;
   width: 280px;
   max-width: 100%;
   box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(31, 60, 105, 0.05);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.calendar-container:hover {
+  box-shadow: 0 4px 14px rgba(31, 60, 105, 0.09);
 }
 
 .calendar-header {
@@ -252,17 +258,23 @@ watch(() => props.modelValue, (newVal) => {
 .nav-btn {
   background: none;
   border: 1px solid #dcdfe6;
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 4px 10px;
   cursor: pointer;
   color: #606266;
   font-size: 14px;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.35, 1);
 }
 
 .nav-btn:hover {
-  background: #f5f7fa;
+  background: #ecf5ff;
   color: #409eff;
+  border-color: #409eff;
+  transform: scale(1.06);
+}
+
+.nav-btn:active {
+  transform: scale(0.95);
 }
 
 .calendar-weekdays {
@@ -294,13 +306,18 @@ watch(() => props.modelValue, (newVal) => {
   height: 32px;
   border-radius: 50%;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.35, 1);
   user-select: none;
 }
 
 .calendar-day:not(.empty):not(.disabled):hover {
   background: #ecf5ff;
   color: #409eff;
+  transform: scale(1.12);
+}
+
+.calendar-day:not(.empty):not(.disabled):active {
+  transform: scale(0.95);
 }
 
 .calendar-day.disabled {
@@ -309,8 +326,9 @@ watch(() => props.modelValue, (newVal) => {
 }
 
 .calendar-day.selected {
-  background: #409eff !important;
+  background: linear-gradient(135deg, #409eff 0%, #66b1ff 100%) !important;
   color: #fff !important;
+  box-shadow: 0 3px 8px rgba(64, 158, 255, 0.4);
 }
 
 .calendar-day.today:not(.selected) {
@@ -331,11 +349,11 @@ watch(() => props.modelValue, (newVal) => {
   padding: 8px 4px;
   font-size: 13px;
   border: 1px solid #dcdfe6;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #fff;
   color: #606266;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.35, 1);
   text-align: center;
 }
 
@@ -343,12 +361,15 @@ watch(() => props.modelValue, (newVal) => {
   background: #ecf5ff;
   color: #409eff;
   border-color: #409eff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(64, 158, 255, 0.15);
 }
 
 .time-btn.selected {
-  background: #409eff;
+  background: linear-gradient(135deg, #409eff 0%, #66b1ff 100%);
   color: #fff;
-  border-color: #409eff;
+  border-color: transparent;
+  box-shadow: 0 3px 8px rgba(64, 158, 255, 0.35);
 }
 
 .no-time {
