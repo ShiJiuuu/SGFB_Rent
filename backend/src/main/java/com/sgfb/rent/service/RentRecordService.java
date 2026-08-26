@@ -83,6 +83,7 @@ public class RentRecordService extends ServiceImpl<RentRecordMapper, RentRecord>
         return false;
     }
     
+    @Transactional
     public boolean updateRentRecordStatus(String id, Integer status) {
         RentRecord record = getById(id);
         if (record == null) {
@@ -130,6 +131,7 @@ public class RentRecordService extends ServiceImpl<RentRecordMapper, RentRecord>
         }
     }
     
+    @Transactional
     public boolean updateRentRecord(RentRecord rentRecord) {
         RentRecord existingRecord = getById(rentRecord.getId());
         if (existingRecord == null) {
